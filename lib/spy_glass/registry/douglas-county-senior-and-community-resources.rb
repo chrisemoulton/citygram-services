@@ -16,14 +16,10 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
-    #link = item['web_page_address']['url']
-    #puts link.inspect
-    #puts item.inspect
-    #Line 4: #{item['web_page_address']}
     title = <<-TITLE
       #{item['organization_name']}
-      #{item['category']},
-      #{item['telephone']},
+      #{item['category']}
+      #{item['telephone']}
       #{item['web_page_address']['url']}
     TITLE
 
