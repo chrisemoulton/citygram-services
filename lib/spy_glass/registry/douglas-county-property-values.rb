@@ -12,14 +12,9 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
-    #longitude = item['location']['longitude']
-    #latitude = item['location']['latitude']
-    #.gsub(/[()]/, '').split(/\s*,\s*/)
-    #puts longitude
-    #puts latitude
     title = <<-TITLE
-      Actual Value: #{item['actual_value']}
-      Assessed Value: #{item['assessed_value']}
+      Actual Value: $#{item['actual_value'].to_s.chars.to_a.reverse.each_slice(3).map(&:join).join(",").reverse}
+      Assessed Value: $#{item['assessed_value'].to_s.chars.to_a.reverse.each_slice(3).map(&:join).join(",").reverse}
     TITLE
 
     {
