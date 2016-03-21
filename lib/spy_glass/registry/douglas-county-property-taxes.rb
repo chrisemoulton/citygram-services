@@ -6,7 +6,7 @@ opts = {
   path: '/douglas-county-property-taxes',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'https://data.douglas.co.us/resource/4zp7-9tjq.json?'+Rack::Utils.build_query({
-    '$limit' => 100
+    '$limit' => 10000
   })
 }
 
