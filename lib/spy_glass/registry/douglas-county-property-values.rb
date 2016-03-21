@@ -6,7 +6,7 @@ opts = {
   path: '/douglas-county-property-values',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'https://data.douglas.co.us/resource/drva-83eq?'+Rack::Utils.build_query({
-    '$limit' => 1000
+    '$limit' => 15000
   })
 }
 

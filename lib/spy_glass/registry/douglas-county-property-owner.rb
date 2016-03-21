@@ -6,13 +6,20 @@ opts = {
   path: '/douglas-county-property-owner',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'https://data.douglas.co.us/resource/e5ba-n74c?'+Rack::Utils.build_query({
-    '$limit' => 1000
+    '$limit' => 15000
   })
 }
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
-    latlng = item['location'].gsub(/[()]/, '').split(/\s*,\s*/)
+    case item['location']
+    when nil
+    else
+      latlng = item['location'].gsub(/[()]/, '').split(/\s*,\s*/)
+      longitude = latlng[1].to_f
+      latitude = latlng[0].to_f
+    end
+
     title = <<-TITLE
       #{item['owner_name']}
     TITLE
@@ -23,8 +30,8 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
       'geometry' => {
         'type' => 'Point',
         'coordinates' => [
-          latlng[1].to_f,
-          latlng[0].to_f
+          longitude,
+          latitude
         ]
       },
       'properties' => item.merge('title' => title)

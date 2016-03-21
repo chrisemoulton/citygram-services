@@ -6,7 +6,7 @@ opts = {
   path: '/douglas-county-senior-and-community-resources',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'https://data.douglas.co.us/resource/t3ja-9fqv?'+Rack::Utils.build_query({
-    '$limit' => 1000,
+    '$limit' => 15000,
     '$order' => 'organization_name DESC',
     '$where' => <<-WHERE.oneline
       web_page_address IS NOT NULL
