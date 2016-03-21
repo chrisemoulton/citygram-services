@@ -12,6 +12,14 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
+
+    case item['location']
+    when nil
+    else 
+      longitude = item['location']['longitude'].to_f
+      latitude = item['location']['latitude'].to_f
+    end
+
     title = <<-TITLE
       Actual Value: $#{item['actual_value'].to_s.chars.to_a.reverse.each_slice(3).map(&:join).join(",").reverse}
       Assessed Value: $#{item['assessed_value'].to_s.chars.to_a.reverse.each_slice(3).map(&:join).join(",").reverse}
@@ -23,8 +31,8 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
       'geometry' => {
         'type' => 'Point',
         'coordinates' => [
-          item['location']['longitude'].to_f,
-          item['location']['latitude'].to_f
+          longitude,
+          latitude
         ]
       },
       'properties' => item.merge('title' => title)
